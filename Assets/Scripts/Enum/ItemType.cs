@@ -1,5 +1,8 @@
-public enum ItemType
+namespace PotionCraft.Enum
 {
-    Potion,
-    Ingredient
+    public enum ItemType
+    {
+        Potion,
+        Ingredient
+    }
 }

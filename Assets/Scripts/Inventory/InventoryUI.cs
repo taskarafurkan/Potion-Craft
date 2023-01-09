@@ -1,59 +1,69 @@
+using PotionCraft.Enum;
+using PotionCraft.ItemScripts;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryUI : MonoBehaviour
+namespace PotionCraft.InventoryScripts
 {
-    #region Fields
-
-    [SerializeField] private List<ItemUI> _itemsUI = new List<ItemUI>();
-    [SerializeField] private Transform _ingredientInventoryContainer;
-    [SerializeField] private Transform _potionInventoryContainer;
-    [SerializeField] private GameObject _inventorySlotPrefab;
-    [SerializeField] private GameObject _itemPrefab;
-
-    #endregion
-
-    #region Methods
-
-    private void UpdateSlot(int slot, Item item)
+    public class InventoryUI : MonoBehaviour
     {
-        _itemsUI[slot].UpdateItemSprite(item);
-    }
+        #region Fields
 
-    public void AddNewItem(Item item)
-    {
-        AddInventorySlot(item.ItemType);
-        UpdateSlot(_itemsUI.FindIndex(i => i.Item == null), item);
-    }
-    public void RemoveItem(Item item)
-    {
-        UpdateSlot(_itemsUI.FindIndex(i => i.Item == item), null);
-    }
+        [SerializeField] private List<ItemUI> _itemsUI = new List<ItemUI>();
+        [SerializeField] private Transform _ingredientInventoryContainer;
+        [SerializeField] private Transform _potionInventoryContainer;
+        [SerializeField] private GameObject _inventorySlotPrefab;
+        [SerializeField] private GameObject _itemPrefab;
 
-    public void AddInventorySlot(ItemType itemType)
-    {
-        GameObject inventorySlotGO = null;
+        #endregion
 
-        // Create inventory slot and assign parent by item type
-        if (itemType == ItemType.Potion)
+        #region Methods
+
+        private void UpdateSlot(int slot, Item item)
         {
-            inventorySlotGO = Instantiate(_inventorySlotPrefab,
-           _potionInventoryContainer);
-        }
-        else if (itemType == ItemType.Ingredient)
-        {
-            inventorySlotGO = Instantiate(_inventorySlotPrefab,
-           _ingredientInventoryContainer);
+            _itemsUI[slot].UpdateItem(item);
         }
 
-        inventorySlotGO.transform.localScale = new Vector3(50, 50, 50);
+        public GameObject GetItem(Item item)
+        {
+            return _itemsUI.Find(itemUI => itemUI.Item == item).gameObject;
+        }
 
-        // Create item and assign inventory slot as parent
-        Instantiate(_itemPrefab, inventorySlotGO.transform);
+        public void AddNewItemUI(Item item)
+        {
+            AddInventorySlot(item.ItemType);
+            UpdateSlot(_itemsUI.FindIndex(i => i.Item == null), item);
+        }
+        public void RemoveItem(Item item)
+        {
+            UpdateSlot(_itemsUI.FindIndex(i => i.Item == item), null);
+        }
 
-        // Add item to list
-        _itemsUI.Add(inventorySlotGO.GetComponentInChildren<ItemUI>());
+        public void AddInventorySlot(ItemType itemType)
+        {
+            GameObject inventorySlotGO = null;
+
+            // Create inventory slot and assign parent by item type
+            if (itemType == ItemType.Potion)
+            {
+                inventorySlotGO = Instantiate(_inventorySlotPrefab,
+               _potionInventoryContainer);
+            }
+            else if (itemType == ItemType.Ingredient)
+            {
+                inventorySlotGO = Instantiate(_inventorySlotPrefab,
+               _ingredientInventoryContainer);
+            }
+
+            inventorySlotGO.transform.localScale = new Vector3(50, 50, 50);
+
+            // Create item and assign inventory slot as parent
+            Instantiate(_itemPrefab, inventorySlotGO.transform);
+
+            // Add item to list
+            _itemsUI.Add(inventorySlotGO.GetComponentInChildren<ItemUI>());
+        }
+
+        #endregion
     }
-
-    #endregion
 }
