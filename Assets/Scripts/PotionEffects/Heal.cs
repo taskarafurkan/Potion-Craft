@@ -1,3 +1,5 @@
+using PotionCraft.PotionScripts;
+
 public class Heal : PotionEffect
 {
     #region Fields
@@ -12,7 +14,7 @@ public class Heal : PotionEffect
 
     public override void ApplyEffect()
     {
-        EffectTime = 3;
+        EffectTime = 0;
         UnityEngine.Debug.Log(HealAmount + " " + EffectTime);
     }
 

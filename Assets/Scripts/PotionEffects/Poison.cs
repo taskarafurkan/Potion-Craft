@@ -1,11 +1,10 @@
-using System;
+using PotionCraft.PotionScripts;
 
-[Serializable]
 public class Poison : PotionEffect
 {
     #region Fields
-    private float _poisonIntervalTime;
-    private int _poisonDamage;
+    private float _poisonIntervalTime = 2;
+    private int _poisonDamage = 5;
     #endregion
 
     #region Properties
