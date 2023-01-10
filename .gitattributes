@@ -56,3 +56,5 @@
 # Other
 Assets/Art/Fonts/*.asset filter=lfs diff=lfs merge=lfs -text
 Assets/TextMesh*Pro/Resources/Fonts*&*Materials/*.asset filter=lfs diff=lfs merge=lfs -text
+
+WebGL/TemplateData/*.png -filter=lfs -diff=lfs -merge=lfs -text
