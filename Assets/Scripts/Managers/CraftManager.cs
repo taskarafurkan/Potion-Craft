@@ -38,7 +38,7 @@ namespace PotionCraft.Managers
                     (new Vector2(randomDirection == 0 ? Random.Range(-2f, -4f) : Random.Range(2f, 4f), 13), ForceMode2D.Impulse);
             }
 
-            if (_ingredientsList.Count >= 2)
+            if (_ingredientsList.Count == 2)
             {
                 CraftPotion();
             }
@@ -57,19 +57,12 @@ namespace PotionCraft.Managers
 
             if (Random.Range(0, 100) <= secondIngredient.EffectProbability)
             {
-                // Remove same type list elements
-                for (int x = 0; x < _potionEffects.Count; x++)
+                // Check if effect already exist, if exist don't add the list
+                foreach (PotionEffect effect in secondIngredient.PotionEffects)
                 {
-                    for (int i = 0; i < secondIngredient.PotionEffects.Count; i++)
+                    if (!_potionEffects.Exists(x => x.GetType() == effect.GetType()))
                     {
-                        if (secondIngredient.PotionEffects[i].GetType() == _potionEffects[x].GetType())
-                        {
-                            secondIngredient.PotionEffects.Remove(secondIngredient.PotionEffects[i]);
-                        }
-                        else
-                        {
-                            _potionEffects.Add(secondIngredient.PotionEffects[i]);
-                        }
+                        _potionEffects.Add(effect);
                     }
                 }
             }
@@ -79,6 +72,7 @@ namespace PotionCraft.Managers
             {
                 _potionEffects.AddRange(firstIngredient.EffectProbability > secondIngredient.EffectProbability ? firstIngredient.PotionEffects : secondIngredient.PotionEffects);
             }
+
 
             string potionTitle = _potionEffects[0].ToString();
 
@@ -90,15 +84,16 @@ namespace PotionCraft.Managers
 
             _inventory.AddItemToInventory(craftedPotion);
 
-            CreatePotionGO(craftedPotion);
-
             foreach (GameObject ingredient in _ingredientsList)
             {
                 Destroy(ingredient);
             }
 
             _ingredientsList.Clear();
+
             _potionEffects.Clear();
+
+            CreatePotionGO(craftedPotion);
         }
 
         private void CreatePotionGO(Item item)
