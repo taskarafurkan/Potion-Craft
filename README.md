@@ -2,7 +2,7 @@
 
 # Potion Craft
 
-**Potion Craft** is a prototype game about mixing ingredients and crafting potions, focused on OOP principles.
+**Potion Craft** is a prototype game about mixing ingredients and crafting potions.
 
 ● <a href= https://taskarafurkan.github.io/Potion-Craft/> <b>Play WebGL Demo Here </b> </a> ● <br>
 
